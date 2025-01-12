@@ -4,7 +4,7 @@ export default {
   theme: {
     extend: {
       fontSize: {
-        'huge': 'clamp(4rem, 24vw, 12rem)'
+        'huge': 'clamp(6rem, 30vw, 12rem)'
       }
     },
   },

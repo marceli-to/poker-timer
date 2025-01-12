@@ -86,7 +86,7 @@ export default function Timer() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-gray-900 to-gray-800 text-white p-8 flex flex-col justify-center">
+    <div className="min-h-screen bg-gray-900 text-white p-4 flex flex-col justify-center">
       <div className="sm:max-w-3xl sm:mx-auto">
         <div className="">
           <div className="text-center">
