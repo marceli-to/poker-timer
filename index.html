@@ -9,5 +9,33 @@
 <body>
 <div id="root"></div>
 <script type="module" src="/src/main.tsx"></script>
+<script>
+  let wakeLock = null;
+
+  async function requestWakeLock() {
+      try {
+          wakeLock = await navigator.wakeLock.request('screen');
+          wakeLock.addEventListener('release', () => {
+              console.log('Screen Wake Lock released:', wakeLock.released);
+          });
+          console.log('Screen Wake Lock acquired:', !wakeLock.released);
+      } catch (err) {
+          console.error(`${err.name}, ${err.message}`);
+      }
+  }
+  
+  // Request the wake lock when the page is visible
+  document.addEventListener('visibilitychange', () => {
+      if (document.visibilityState === 'visible') {
+          requestWakeLock();
+      } else if (wakeLock !== null) {
+          wakeLock.release();
+          wakeLock = null;
+      }
+  });
+  
+  // Request the wake lock initially
+  requestWakeLock();
+</script>
 </body>
 </html>
