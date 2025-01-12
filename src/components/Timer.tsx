@@ -85,6 +85,18 @@ export default function Timer() {
     return gameSettings.startingStack * gameSettings.numberOfPlayers / activePlayers;
   };
 
+  const handleFullscreen = () => {
+    const elem = document.documentElement;
+
+    if (!document.fullscreenElement) {
+      elem.requestFullscreen().catch(err => {
+        console.error(`Error attempting to enable full-screen mode: ${err.message} (${err.name})`);
+      });
+    } else {
+      document.exitFullscreen();
+    }
+  };
+
   return (
     <div className="min-h-screen bg-gray-900 text-white p-4 flex flex-col justify-center">
       <div className="sm:max-w-3xl sm:mx-auto">
@@ -145,6 +157,12 @@ export default function Timer() {
               className="bg-gray-700 hover:bg-gray-600 text-white p-4 rounded-full transition-colors"
             >
               <Users size={24} />
+            </button>
+            <button
+              onClick={handleFullscreen}
+              className="bg-gray-700 hover:bg-gray-600 text-white p-4 rounded-full transition-colors"
+            >
+              Fullscreen
             </button>
           </div>
         </div>
