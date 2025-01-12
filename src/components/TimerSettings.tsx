@@ -84,7 +84,7 @@ export default function TimerSettings({ levels, onSave, onClose }: TimerSettings
         <div className="mt-6 flex gap-4">
           <button
             onClick={addLevel}
-            className="flex items-center gap-2 bg-blue-500 hover:bg-blue-600 px-4 py-2 rounded"
+            className="flex items-center gap-2 bg-orange-500 hover:bg-blue-600 px-4 py-2 rounded"
           >
             <Plus size={20} />
             Add Level

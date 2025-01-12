@@ -14,31 +14,32 @@ export default function Timer() {
   const [showGameSettings, setShowGameSettings] = useState(false);
 
   const defaultLevels: BlindLevel[] = [
-    { smallBlind: 10, bigBlind: 20, duration: 900 },
-    { smallBlind: 20, bigBlind: 40, duration: 900 },
-    { smallBlind: 50, bigBlind: 100, duration: 900 },
-    { smallBlind: 100, bigBlind: 200, duration: 900 },
-    { smallBlind: 200, bigBlind: 400, duration: 900 },
-    { smallBlind: 500, bigBlind: 1000, duration: 900 },
+    { smallBlind: 100, bigBlind: 200, duration: 1200 },
+    { smallBlind: 150, bigBlind: 300, duration: 1200 },
+    { smallBlind: 200, bigBlind: 400, duration: 1200 },
+    { smallBlind: 300, bigBlind: 600, duration: 1200 },
+    { smallBlind: 400, bigBlind: 800, duration: 1200 },
+    { smallBlind: 500, bigBlind: 1000, duration: 1200 },
   ];
 
   const defaultGameSettings: GameSettings = {
     numberOfPlayers: 6,
-    entryFee: 50,
+    activePlayers: 6,
+    entryFee: 10,
     startingStack: 10000,
   };
 
   const [levels, setLevels] = useState<BlindLevel[]>(defaultLevels);
   const [gameSettings, setGameSettings] = useState<GameSettings>(defaultGameSettings);
+  const [activePlayers, setActivePlayers] = useState(gameSettings.numberOfPlayers);
 
   useEffect(() => {
     let interval: NodeJS.Timeout;
-    
     if (isRunning && timeLeft > 0) {
       interval = setInterval(() => {
         setTimeLeft((time) => time - 1);
       }, 1000);
-    } else if (timeLeft === 0 && currentLevel < levels.length - 1) {
+    } else if (timeLeft === 0 && currentLevel < levels.length - 1 && !isRunning) {
       setCurrentLevel((level) => level + 1);
       setTimeLeft(levels[currentLevel + 1].duration);
     }
@@ -75,21 +76,29 @@ export default function Timer() {
     resetTimer();
   };
 
+  const handleSaveGameSettings = (newSettings: GameSettings) => {
+    setGameSettings(newSettings);
+    setActivePlayers(newSettings.numberOfPlayers);
+  };
+
+  const calculateAverageStack = () => {
+    return gameSettings.startingStack * gameSettings.numberOfPlayers / activePlayers;
+  };
+
   return (
-    <div className="min-h-screen bg-gradient-to-br from-gray-900 to-gray-800 text-white p-8">
-      <div className="max-w-2xl mx-auto">
-        <div className="bg-gray-800 rounded-xl shadow-2xl p-8 backdrop-blur-lg bg-opacity-50">
-          <div className="text-center mb-8">
-            <h1 className="text-4xl font-bold mb-2">Poker Timer</h1>
-            <p className="text-gray-400">Level {currentLevel + 1} of {levels.length}</p>
+    <div className="min-h-screen bg-gradient-to-br from-gray-900 to-gray-800 text-white p-8 flex flex-col justify-center">
+      <div className="sm:max-w-3xl sm:mx-auto">
+        <div className="">
+          <div className="text-center">
+            <h1 className="text-3xl mb-2">Level {currentLevel + 1} of {levels.length}</h1>
           </div>
 
-          <div className="relative h-4 bg-gray-700 rounded-full mb-8 overflow-hidden">
+          {/* <div className="relative h-4 bg-gray-700 rounded-full mb-8 overflow-hidden">
             <div 
-              className="absolute h-full bg-blue-500 transition-all duration-1000"
+              className="absolute h-full bg-orange-500 transition-all duration-1000"
               style={{ width: `${calculateProgress()}%` }}
             />
-          </div>
+          </div> */}
 
           <TimerDisplay
             timeLeft={timeLeft}
@@ -101,12 +110,14 @@ export default function Timer() {
             settings={gameSettings}
             currentLevel={currentLevel}
             timeLeft={timeLeft}
+            activePlayers={activePlayers}
+            averageStack={calculateAverageStack()}
           />
 
           <div className="flex justify-center space-x-4">
             <button
               onClick={toggleTimer}
-              className="bg-blue-500 hover:bg-blue-600 text-white p-4 rounded-full transition-colors"
+              className="bg-orange-500 hover:bg-blue-600 text-white p-4 rounded-full transition-colors"
             >
               {isRunning ? <Pause size={24} /> : <Play size={24} />}
             </button>
@@ -150,7 +161,7 @@ export default function Timer() {
       {showGameSettings && (
         <GameSettingsModal
           settings={gameSettings}
-          onSave={setGameSettings}
+          onSave={handleSaveGameSettings}
           onClose={() => setShowGameSettings(false)}
         />
       )}

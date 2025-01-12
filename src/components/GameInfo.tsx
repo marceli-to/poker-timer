@@ -8,14 +8,15 @@ interface GameInfoProps {
 
 export default function GameInfo({ settings, currentLevel }: GameInfoProps) {
   const totalChips = settings.numberOfPlayers * settings.startingStack;
-  const averageStack = Math.round(totalChips / settings.numberOfPlayers);
+  const averageStack = Math.round(totalChips / settings.activePlayers);
   const totalPrizePool = settings.numberOfPlayers * settings.entryFee;
 
   return (
     <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
       <div className="bg-gray-700 p-4 rounded-lg">
         <h3 className="text-sm text-gray-400">Players</h3>
-        <p className="text-xl font-bold">{settings.numberOfPlayers}</p>
+        <p className="text-xl font-bold">
+          {settings.activePlayers} / {settings.numberOfPlayers}</p>
       </div>
       <div className="bg-gray-700 p-4 rounded-lg">
         <h3 className="text-sm text-gray-400">Prize Pool</h3>

@@ -73,7 +73,7 @@ export default function GameSettings({ settings, onSave, onClose }: GameSettings
         <div className="mt-6 flex justify-end gap-4">
           <button
             onClick={handleSave}
-            className="flex items-center gap-2 bg-blue-500 hover:bg-blue-600 px-4 py-2 rounded"
+            className="flex items-center gap-2 bg-orange-500 hover:bg-blue-600 px-4 py-2 rounded"
           >
             <Save size={20} />
             Save Changes

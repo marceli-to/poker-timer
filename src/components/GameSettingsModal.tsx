@@ -42,6 +42,20 @@ export default function GameSettingsModal({ settings, onSave, onClose }: GameSet
           </div>
 
           <div>
+            <label className="text-sm text-gray-400 block mb-1">Active Players</label>
+            <input
+              type="number"
+              value={editedSettings.activePlayers}
+              onChange={(e) => setEditedSettings({
+                ...editedSettings,
+                activePlayers: Math.max(1, parseInt(e.target.value) || 1)
+              })}
+              className="w-full bg-gray-700 rounded p-2 text-white"
+              min="1"
+            />
+          </div>
+
+          <div>
             <label className="text-sm text-gray-400 block mb-1">Entry Fee ($)</label>
             <input
               type="number"
@@ -73,7 +87,7 @@ export default function GameSettingsModal({ settings, onSave, onClose }: GameSet
         <div className="mt-6 flex justify-end gap-4">
           <button
             onClick={handleSave}
-            className="flex items-center gap-2 bg-blue-500 hover:bg-blue-600 px-4 py-2 rounded"
+            className="flex items-center gap-2 bg-orange-500 hover:bg-blue-600 px-4 py-2 rounded"
           >
             <Save size={20} />
             Save Changes

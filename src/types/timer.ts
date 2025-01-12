@@ -12,6 +12,7 @@ export interface TimerSettingsProps {
 
 export interface GameSettings {
   numberOfPlayers: number;
+  activePlayers: number;
   entryFee: number;
   startingStack: number;
 }
